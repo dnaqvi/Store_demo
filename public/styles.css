@@ -75,7 +75,6 @@ main {
   list-style-type: none;
   padding: 0;
 }
-
 #line-items li {
   display: flex;
   justify-content: space-between;
