@@ -5,14 +5,14 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 
+app.use(express.static('public'));
+
 app.get('/products', async (_request, response) => {
   // Ask stripe for all of the products
-
   const products = await stripe.products.list({
     limit: 100,
   });
   // Ask stripe for all of the prices
-
   const prices = await stripe.prices.list({
     limit: 100,
   });
@@ -33,8 +33,9 @@ app.get('/products', async (_request, response) => {
     category: product.metadata.category,
     currency: product.price.currency,
     price_cents: product.price.unit_amount,
+    price_id: product.price.id,
   }));
-  response.json({ cleanedUpProducts });
+  response.json(cleanedUpProducts);
 });
 
-app.listen(3000, () => console.log(`server is on!`));
+app.listen(3000, () => console.log(`Server is on!`));
