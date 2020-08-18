@@ -4,6 +4,7 @@ const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
+app.use(express.static('public'));
 
 app.get('/products', async (_request, response) => {
   // Ask stripe for all of the products
@@ -33,6 +34,7 @@ app.get('/products', async (_request, response) => {
     category: product.metadata.category,
     currency: product.price.currency,
     price_cents: product.price.unit_amount,
+    price_id: product.price.id,
   }));
   response.json({ cleanedUpProducts });
 });
